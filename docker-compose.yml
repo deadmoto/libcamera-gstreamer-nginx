@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  camera:
+    build: camera # edit playlist-root in cmd.sh
+    privileged: true
+    volumes:
+      - /run/udev:/run/udev:ro
+      - /tmp/hls:/tmp/hls
+    devices:
+      - /dev:/dev
+    restart: unless-stopped
+  nginx:
+    build: nginx # edit source url in index.htm
+    volumes:
+      - /tmp/hls:/tmp/hls
+    ports:
+      - "0.0.0.0:8080:80"
+    restart: unless-stopped
